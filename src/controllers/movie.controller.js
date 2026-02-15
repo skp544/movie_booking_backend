@@ -6,13 +6,18 @@ const {
 
 exports.createMovie = async (req, res) => {
   try {
-    const movie = await movieService.createMovie(req.body);
+    const response = await movieService.createMovie(req.body);
 
-    successResponseBody.data = movie;
+    successResponseBody.data = response;
     successResponseBody.message = "Successfully created movie.";
 
     return res.status(201).json(successResponseBody);
-  } catch (err) {
+  } catch (error) {
+    if (error.err) {
+      errorResponseBody.err = error.err;
+      errorResponseBody.message = "Validation failed for the request.";
+      return res.status(error.code).json(errorResponseBody);
+    }
     return res.status(500).json(errorResponseBody);
   }
 };
@@ -21,16 +26,15 @@ exports.deleteMovie = async (req, res) => {
   try {
     const response = await movieService.deleteMovie(req.params.id);
 
-    if (response.err) {
-      errorResponseBody.err = response.err;
-      return res.status(response.code).json(errorResponseBody);
-    }
-
     successResponseBody.data = response;
     successResponseBody.message = "Successfully deleted movie.";
 
     return res.status(200).json(successResponseBody);
   } catch (error) {
+    if (error.err) {
+      errorResponseBody.err = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
     return res.status(500).json(errorResponseBody);
   }
 };
@@ -39,15 +43,14 @@ exports.getMovie = async (req, res) => {
   try {
     const response = await movieService.getMovieById(req.params.id);
 
-    if (response.err) {
-      errorResponseBody.err = response.err;
-      return res.status(response.code).json(errorResponseBody);
-    }
-
     successResponseBody.data = response;
 
     return res.status(200).json(successResponseBody);
   } catch (error) {
+    if (error.err) {
+      errorResponseBody.err = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
     return res.status(500).json(errorResponseBody);
   }
 };
