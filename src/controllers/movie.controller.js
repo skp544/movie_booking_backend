@@ -1,4 +1,19 @@
 const MovieModel = require("../models/movie.model");
+const movieService = require("../services/movie.service");
+
+const errorResponseBody = {
+  err: {},
+  data: {},
+  message: "Something went wrong. Unable to process request.",
+  success: false,
+};
+
+const successResponseBody = {
+  err: {},
+  data: {},
+  message: "Successfully processed request.",
+  success: true,
+};
 
 exports.createMovie = async (req, res) => {
   try {
@@ -22,58 +37,35 @@ exports.createMovie = async (req, res) => {
 
 exports.deleteMovie = async (req, res) => {
   try {
-    const movie = await MovieModel.findByIdAndDelete(req.params.id);
+    const response = await movieService.deleteMovie(req.params.id);
 
-    if (!movie) {
-      return res.status(404).json({
-        success: false,
-        message: "Movie not found.",
-        data: {},
-        error: {},
-      });
+    if (response.err) {
+      errorResponseBody.err = response.err;
+      return res.status(response.code).json(errorResponseBody);
     }
 
-    return res.status(200).json({
-      success: true,
-      message: "Successfully deleted movie.",
-      data: movie,
-      error: {},
-    });
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully deleted movie.";
+
+    return res.status(200).json(successResponseBody);
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to delete movie.",
-      data: {},
-      error: err,
-    });
+    return res.status(500).json(errorResponseBody);
   }
 };
 
 exports.getMovie = async (req, res) => {
   try {
-    const movie = await MovieModel.findById(req.params.id);
+    const response = await movieService.getMovieById(req.params.id);
 
-    if (!movie) {
-      return res.status(404).json({
-        success: false,
-        message: "Movie not found.",
-        data: {},
-        error: {},
-      });
+    if (response.err) {
+      errorResponseBody.err = response.err;
+      return res.status(response.code).json(errorResponseBody);
     }
 
-    return res.status(200).json({
-      success: true,
-      message: "Successfully fetched movie.",
-      data: movie,
-      error: {},
-    });
+    successResponseBody.data = response;
+
+    return res.status(200).json(successResponseBody);
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to fetch movie.",
-      data: {},
-      error: err,
-    });
+    return res.status(500).json(errorResponseBody);
   }
 };
