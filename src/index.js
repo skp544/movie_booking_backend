@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/database");
+const movieRouter = require("./routes/movie.routes");
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.get("/", (req, res) => {
 });
 
 connectDB();
+
+app.use("/mba/api/v1/movies", movieRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on  http://localhost:${PORT}`);
