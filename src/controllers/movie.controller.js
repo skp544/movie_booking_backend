@@ -1,37 +1,19 @@
-const MovieModel = require("../models/movie.model");
 const movieService = require("../services/movie.service");
-
-const errorResponseBody = {
-  err: {},
-  data: {},
-  message: "Something went wrong. Unable to process request.",
-  success: false,
-};
-
-const successResponseBody = {
-  err: {},
-  data: {},
-  message: "Successfully processed request.",
-  success: true,
-};
+const {
+  successResponseBody,
+  errorResponseBody,
+} = require("../utils/responseBody");
 
 exports.createMovie = async (req, res) => {
   try {
-    const movie = await MovieModel.create(req.body);
+    const movie = await movieService.createMovie(req.body);
 
-    return res.status(201).json({
-      success: true,
-      message: "Successfully created new movie.",
-      data: movie,
-      error: {},
-    });
+    successResponseBody.data = movie;
+    successResponseBody.message = "Successfully created movie.";
+
+    return res.status(201).json(successResponseBody);
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to create new movie.",
-      data: {},
-      error: err,
-    });
+    return res.status(500).json(errorResponseBody);
   }
 };
 

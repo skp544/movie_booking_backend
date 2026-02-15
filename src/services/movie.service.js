@@ -1,7 +1,12 @@
+const e = require("express");
 const MovieModel = require("../models/movie.model");
 
-exports.getMovieById = async (id) => {
-  const movie = await MovieModel.findById(id);
+exports.createMovie = async (data) => {
+  const newMovie = await MovieModel.create(data);
+  return newMovie;
+};
+exports.deleteMovie = async (id) => {
+  const movie = await MovieModel.findByIdAndDelete(id);
 
   if (!movie) {
     return {
@@ -14,8 +19,9 @@ exports.getMovieById = async (id) => {
 
   return movie;
 };
-exports.deleteMovie = async (id) => {
-  const movie = await MovieModel.findByIdAndDelete(id);
+
+exports.getMovieById = async (id) => {
+  const movie = await MovieModel.findById(id);
 
   if (!movie) {
     return {
