@@ -61,3 +61,24 @@ exports.getMovieById = async (id) => {
     throw error;
   }
 };
+
+exports.updateMovie = async (id, data) => {
+  try {
+    const movie = await MovieModel.findByIdAndUpdate(id, data, {
+      new: true,
+    });
+
+    if (!movie) {
+      throw {
+        err: "No movie found for corresponding id.",
+        code: 404,
+        //   message: "Something went wrong, unable to fetch movie details.",
+        //   data: {},
+      };
+    }
+
+    return movie;
+  } catch (error) {
+    throw error;
+  }
+};

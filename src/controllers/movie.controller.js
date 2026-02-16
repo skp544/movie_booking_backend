@@ -54,3 +54,17 @@ exports.getMovie = async (req, res) => {
     return res.status(500).json(errorResponseBody);
   }
 };
+
+exports.updateMovie = async (req, res) => {
+  try {
+    const movie = await movieService.updateMovie(req.params.id, req.body);
+
+    successResponseBody.data = movie;
+    successResponseBody.message = "Successfully updated movie.";
+
+    return res.status(200).json(successResponseBody);
+  } catch (error) {
+    errorResponseBody.err = error.err;
+    return res.status(error.code).json(errorResponseBody);
+  }
+};
