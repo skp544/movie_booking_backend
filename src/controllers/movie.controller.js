@@ -64,7 +64,10 @@ exports.updateMovie = async (req, res) => {
 
     return res.status(200).json(successResponseBody);
   } catch (error) {
-    errorResponseBody.err = error.err;
-    return res.status(error.code).json(errorResponseBody);
+    if (error.err) {
+      errorResponseBody.err = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
+    return res.status(500).json(errorResponseBody);
   }
 };

@@ -66,6 +66,7 @@ exports.updateMovie = async (id, data) => {
   try {
     const movie = await MovieModel.findByIdAndUpdate(id, data, {
       new: true,
+      runValidators: true,
     });
 
     if (!movie) {
@@ -79,6 +80,18 @@ exports.updateMovie = async (id, data) => {
 
     return movie;
   } catch (error) {
-    throw error;
+    if (error.name === "ValidationError") {
+      let err = {};
+      Object.keys(error.errors).forEach((key) => {
+        err[key] = error.errors[key].message;
+      });
+
+      throw {
+        err,
+        code: 422,
+      };
+    } else {
+      throw error;
+    }
   }
 };
