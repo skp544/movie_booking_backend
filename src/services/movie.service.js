@@ -6,9 +6,6 @@ exports.createMovie = async (data) => {
     const newMovie = await MovieModel.create(data);
     return newMovie;
   } catch (error) {
-    // console.log(error);
-    // console.log(error.name);
-
     if (error.name === "ValidationError") {
       let err = {};
       Object.keys(error.errors).forEach((key) => {
@@ -94,4 +91,21 @@ exports.updateMovie = async (id, data) => {
       throw error;
     }
   }
+};
+
+exports.fetchMovies = async (filter) => {
+  let query = {};
+  if (filter.name) {
+    query.name = filter.name;
+  }
+
+  let movies = await MovieModel.find(query);
+
+  if (!movies) {
+    return {
+      err: "Not able to find the movies",
+      code: 404,
+    };
+  }
+  return movies;
 };
