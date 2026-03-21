@@ -5,10 +5,13 @@ const {
   getMovie,
   updateMovie,
 } = require("../controllers/movie.controller");
+const {
+  validateMovieCreateRequest,
+} = require("../middlewares/movie.middleware");
 
 const movieRouter = Router();
 
-movieRouter.post("/", createMovie);
+movieRouter.post("/", validateMovieCreateRequest, createMovie);
 
 movieRouter.delete("/:id", deleteMovie);
 
