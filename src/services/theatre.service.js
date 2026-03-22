@@ -16,3 +16,17 @@ exports.createTheatre = async (data) => {
     throw err;
   }
 };
+
+exports.deleteTheatre = async (id) => {
+  try {
+    const response = await TheatreModel.findByIdAndDelete(id);
+
+    if (!response) {
+      throw { err: "No theatre found for corresponding id.", code: 404 };
+    }
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

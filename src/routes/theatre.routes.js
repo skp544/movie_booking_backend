@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { create } = require("../controllers/theatre.controller");
+const { create, destroy } = require("../controllers/theatre.controller");
 const {
   validateTheatreCreaterRequest,
 } = require("../middlewares/theatre.middlewares");
@@ -7,5 +7,7 @@ const {
 const theatreRouter = Router();
 
 theatreRouter.post("/", validateTheatreCreaterRequest, create);
+
+theatreRouter.delete("/:id", destroy);
 
 module.exports = theatreRouter;
