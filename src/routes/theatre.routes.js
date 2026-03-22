@@ -3,6 +3,7 @@ const {
   create,
   destroy,
   getByID,
+  getAll,
 } = require("../controllers/theatre.controller");
 const {
   validateTheatreCreaterRequest,
@@ -15,5 +16,7 @@ theatreRouter.post("/", validateTheatreCreaterRequest, create);
 theatreRouter.delete("/:id", destroy);
 
 theatreRouter.get("/:id", getByID);
+
+theatreRouter.get("/", getAll);
 
 module.exports = theatreRouter;

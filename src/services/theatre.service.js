@@ -44,3 +44,12 @@ exports.getTheatre = async (id) => {
     throw error;
   }
 };
+
+exports.getAllTheatres = async () => {
+  try {
+    const response = await TheatreModel.find({});
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
