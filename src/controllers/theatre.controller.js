@@ -39,3 +39,20 @@ exports.destroy = async (req, res) => {
     return res.status(500).json(errorResponseBody);
   }
 };
+
+exports.getByID = async (req, res) => {
+  try {
+    const response = await theatreService.getTheatre(req.params.id);
+
+    successResponseBody.data = response;
+
+    return res.status(200).json(successResponseBody);
+  } catch (error) {
+    if (error.err) {
+      errorResponseBody.err = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
+    errorResponseBody.err = error;
+    return res.status(500).json(errorResponseBody);
+  }
+};
