@@ -8,6 +8,9 @@ exports.create = async (req, res) => {
   try {
     const response = await theatreService.createTheatre(req.body);
 
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully created theatre.";
+
     return res.status(201).json(successResponseBody);
   } catch (error) {
     if (error.err) {
@@ -22,6 +25,9 @@ exports.create = async (req, res) => {
 exports.destroy = async (req, res) => {
   try {
     const response = await theatreService.deleteTheatre(req.params.id);
+
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully deleted theatre.";
 
     return res.status(200).json(successResponseBody);
   } catch (error) {
