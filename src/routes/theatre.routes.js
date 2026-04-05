@@ -5,6 +5,7 @@ const {
   getByID,
   getAll,
   updateMovies,
+  update,
 } = require("../controllers/theatre.controller");
 const {
   validateTheatreCreaterRequest,
@@ -22,5 +23,7 @@ theatreRouter.get("/:id", getByID);
 theatreRouter.get("/", getAll);
 
 theatreRouter.patch("/:id/movies", validateUpdateMoviesRequest, updateMovies);
+
+theatreRouter.patch("/:id", update);
 
 module.exports = theatreRouter;

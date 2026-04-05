@@ -94,3 +94,24 @@ exports.updateMovies = async (req, res) => {
     return res.status(500).json(errorResponseBody);
   }
 };
+
+exports.update = async (req, res) => {
+  try {
+    const response = await theatreService.updateTheatre(
+      req.params.id,
+      req.body,
+    );
+
+    successResponseBody.data = response;
+    successResponseBody.message = "Successfully updated theatre.";
+
+    return res.status(200).json(successResponseBody);
+  } catch (error) {
+    if (error.err) {
+      errorResponseBody.err = error.err;
+      return res.status(error.code).json(errorResponseBody);
+    }
+    errorResponseBody.err = error;
+    return res.status(500).json(errorResponseBody);
+  }
+};
