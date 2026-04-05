@@ -4,9 +4,11 @@ const {
   destroy,
   getByID,
   getAll,
+  updateMovies,
 } = require("../controllers/theatre.controller");
 const {
   validateTheatreCreaterRequest,
+  validateUpdateMoviesRequest,
 } = require("../middlewares/theatre.middlewares");
 
 const theatreRouter = Router();
@@ -18,5 +20,7 @@ theatreRouter.delete("/:id", destroy);
 theatreRouter.get("/:id", getByID);
 
 theatreRouter.get("/", getAll);
+
+theatreRouter.patch("/:id/movies", validateUpdateMoviesRequest, updateMovies);
 
 module.exports = theatreRouter;

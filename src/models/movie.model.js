@@ -41,6 +41,6 @@ const movieSchema = new Schema(
   { timestamps: true },
 );
 
-const MovieModel = model("movie", movieSchema);
+const MovieModel = model("Movie", movieSchema);
 
 module.exports = MovieModel;

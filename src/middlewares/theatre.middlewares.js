@@ -18,3 +18,30 @@ exports.validateTheatreCreaterRequest = (req, res, next) => {
 
   next();
 };
+
+exports.validateUpdateMoviesRequest = async (req, res, next) => {
+  if (!req.body.insert) {
+    errorResponseBody.message = "Insert parameter is missing in the request.";
+    return res.status(400).json(errorResponseBody);
+  }
+
+  if (!req.body.movieIds) {
+    errorResponseBody.message =
+      "No movies present in the request to be updated in theatre.";
+    return res.status(400).json(errorResponseBody);
+  }
+
+  if (!(req.body.movieIds instanceof Array)) {
+    errorResponseBody.message =
+      "Expected array of movies but found something else in the request.";
+    return res.status(400).json(errorResponseBody);
+  }
+
+  if (req.body.movieIds.length <= 0) {
+    errorResponseBody.message =
+      "Expected array of movies but found an empty array in the request.";
+    return res.status(400).json(errorResponseBody);
+  }
+
+  next();
+};
