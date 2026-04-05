@@ -20,7 +20,7 @@ exports.validateTheatreCreaterRequest = (req, res, next) => {
 };
 
 exports.validateUpdateMoviesRequest = async (req, res, next) => {
-  if (!req.body.insert) {
+  if (req.body.insert === undefined) {
     errorResponseBody.message = "Insert parameter is missing in the request.";
     return res.status(400).json(errorResponseBody);
   }
