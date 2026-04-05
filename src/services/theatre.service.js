@@ -45,9 +45,20 @@ exports.getTheatre = async (id) => {
   }
 };
 
-exports.getAllTheatres = async () => {
+exports.getAllTheatres = async (data) => {
   try {
-    const response = await TheatreModel.find({});
+    let query = {};
+    if (data && data.city) {
+      query.city = data.city;
+    }
+    if (data && data.pincode) {
+      query.pincode = data.pincode;
+    }
+
+    if (data && data.name) {
+      query.name = data.name;
+    }
+    const response = await TheatreModel.find(query);
     return response;
   } catch (error) {
     throw error;
