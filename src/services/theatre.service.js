@@ -48,18 +48,29 @@ exports.getTheatre = async (id) => {
 exports.getAllTheatres = async (data) => {
   try {
     let query = {};
-    if (data && data.city) {
-      query.city = data.city;
-    }
-    if (data && data.pincode) {
-      query.pincode = data.pincode;
-    }
 
-    if (data && data.name) {
-      query.name = data.name;
-    }
-    const response = await TheatreModel.find(query);
-    return response;
+    if (data?.city) query.city = data.city;
+    if (data?.pincode) query.pincode = data.pincode;
+    if (data?.name) query.name = { $regex: data.name, $options: "i" };
+
+    let limit = data?.limit ? parseInt(data.limit) : 10;
+    let page = data?.page ? parseInt(data.page) : 1;
+    let skip = (page - 1) * limit;
+
+    const theatres = await TheatreModel.find(query)
+      .limit(limit)
+      .skip(skip)
+      .populate("movies");
+
+    const total = await TheatreModel.countDocuments(query);
+
+    return {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+      data: theatres,
+    };
   } catch (error) {
     throw error;
   }
